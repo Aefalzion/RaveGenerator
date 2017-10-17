@@ -5,6 +5,8 @@
 #include "files.h"
 
 int main() {
+
+
     log("program started", "logs.txt");
     printf("Hello! This is the Rave Generator. You can use following commands:\n"
                    "i <filename>   to import file with text\n"
@@ -28,4 +30,5 @@ int main() {
     }
     log("program succesfully closed", "logs.txt");
     return 0;
+
 }

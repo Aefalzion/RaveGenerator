@@ -3,10 +3,12 @@
 //
 
 #include <stdlib.h>
+#include "random.h"
 
 #ifndef RAVEGENERATOR_INT_TREE_H
 #define RAVEGENERATOR_INT_TREE_H
 #endif
+
 
 typedef struct {
     long int number;
@@ -23,20 +25,26 @@ Int_Tree *new_node(long int number, void *pointer) {
     return result;
 }
 
+Int_Tree *new_tree() {
+    return new_node(get_rand(0, 1000000), 0);
+}
+
 void add_to_tree(Int_Tree *tree, long int number, int *pointer) {
-    if (tree->number == number)
+    if (tree->number == number) {
+        tree->pointer = pointer;
         return;
-    if (number > tree->number) {
-        if (tree->left)
-            add_to_tree(tree->left, number, pointer);
-        else
-            tree->left = new_node(number, pointer);
     }
-    if (number < tree->number) {
+    if (number > tree->number) {
         if (tree->right)
             add_to_tree(tree->right, number, pointer);
         else
             tree->right = new_node(number, pointer);
+    }
+    if (number < tree->number) {
+        if (tree->left)
+            add_to_tree(tree->left, number, pointer);
+        else
+            tree->left = new_node(number, pointer);
     }
 }
 

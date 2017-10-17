@@ -98,6 +98,9 @@
 		<Unit filename="C:/Users/vasya/Work/RaveProject/main.c">
 			<Option target="RaveGenerator"/>
 		</Unit>
+		<Unit filename="C:/Users/vasya/Work/RaveProject/random.h">
+			<Option target="RaveGenerator"/>
+		</Unit>
 		<Unit filename="C:/Users/vasya/Work/RaveProject/CMakeLists.txt">
 			<Option virtualFolder="CMake Files\"/>
 		</Unit>
