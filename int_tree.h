@@ -6,3 +6,16 @@
 #define RAVEGENERATOR_INT_TREE_H
 
 #endif //RAVEGENERATOR_INT_TREE_H
+
+typedef struct {
+    int number;
+    void *pointer;
+} Int_Tree;
+
+void add_to_tree(Int_Tree *tree, int number, int *pointer) {
+
+}
+
+void *find_in_tree(Int_Tree *tree, int number) {
+
+}

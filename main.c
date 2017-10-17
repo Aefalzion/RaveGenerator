@@ -1,4 +1,6 @@
 #include <stdio.h>
+#include <int_tree.h>
+#include <dictionary.h>
 
 int main() {
     printf("Hello! This is the Rave Generator. You can use following commands:\n"
