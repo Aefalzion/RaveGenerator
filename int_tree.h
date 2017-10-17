@@ -1,0 +1,8 @@
+//
+// Created by vasya on 17.10.2017.
+//
+
+#ifndef RAVEGENERATOR_INT_TREE_H
+#define RAVEGENERATOR_INT_TREE_H
+
+#endif //RAVEGENERATOR_INT_TREE_H

@@ -80,6 +80,12 @@
 				</MakeCommands>
 			</Target>
 		</Build>
+		<Unit filename="C:/Users/vasya/Work/RaveProject/dictionary.h">
+			<Option target="RaveGenerator"/>
+		</Unit>
+		<Unit filename="C:/Users/vasya/Work/RaveProject/int_tree.h">
+			<Option target="RaveGenerator"/>
+		</Unit>
 		<Unit filename="C:/Users/vasya/Work/RaveProject/main.c">
 			<Option target="RaveGenerator"/>
 		</Unit>
