@@ -4,8 +4,7 @@
 
 #ifndef RAVEGENERATOR_INT_TREE_H
 #define RAVEGENERATOR_INT_TREE_H
-
-#endif //RAVEGENERATOR_INT_TREE_H
+#endif
 
 typedef struct {
     int number;

@@ -83,7 +83,16 @@
 		<Unit filename="C:/Users/vasya/Work/RaveProject/dictionary.h">
 			<Option target="RaveGenerator"/>
 		</Unit>
+		<Unit filename="C:/Users/vasya/Work/RaveProject/files.h">
+			<Option target="RaveGenerator"/>
+		</Unit>
+		<Unit filename="C:/Users/vasya/Work/RaveProject/generator.h">
+			<Option target="RaveGenerator"/>
+		</Unit>
 		<Unit filename="C:/Users/vasya/Work/RaveProject/int_tree.h">
+			<Option target="RaveGenerator"/>
+		</Unit>
+		<Unit filename="C:/Users/vasya/Work/RaveProject/logs.h">
 			<Option target="RaveGenerator"/>
 		</Unit>
 		<Unit filename="C:/Users/vasya/Work/RaveProject/main.c">
