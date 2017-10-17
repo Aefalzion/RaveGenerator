@@ -1,3 +1,3 @@
-C:/Users/vasya/Work/RaveGenerator/cmake-build-debug/CMakeFiles/RaveGenerator.dir
-C:/Users/vasya/Work/RaveGenerator/cmake-build-debug/CMakeFiles/edit_cache.dir
-C:/Users/vasya/Work/RaveGenerator/cmake-build-debug/CMakeFiles/rebuild_cache.dir
+C:/Users/vasya/Work/RaveProject/cmake-build-debug/CMakeFiles/RaveGenerator.dir
+C:/Users/vasya/Work/RaveProject/cmake-build-debug/CMakeFiles/edit_cache.dir
+C:/Users/vasya/Work/RaveProject/cmake-build-debug/CMakeFiles/rebuild_cache.dir

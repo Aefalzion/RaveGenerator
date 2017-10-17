@@ -4,7 +4,7 @@ set(CMAKE_DEPENDS_LANGUAGES
   )
 # The set of files for implicit dependencies of each language:
 set(CMAKE_DEPENDS_CHECK_C
-  "C:/Users/vasya/Work/RaveGenerator/main.c" "C:/Users/vasya/Work/RaveGenerator/cmake-build-debug/CMakeFiles/RaveGenerator.dir/main.c.obj"
+  "C:/Users/vasya/Work/RaveProject/main.c" "C:/Users/vasya/Work/RaveProject/cmake-build-debug/CMakeFiles/RaveGenerator.dir/main.c.obj"
   )
 set(CMAKE_C_COMPILER_ID "GNU")
 
