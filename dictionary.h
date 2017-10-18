@@ -9,40 +9,49 @@
 #include "int_tree.h"
 #include "random.h"
 
+long int nwords = 0;
+
 typedef struct {
     int id;
     Int_Tree *next;
+    void *anscestor;
+    char symbol;
 } DictTree;
 
-DictTree *new_dict_tree_node() {
+DictTree *new_dict_tree_node(DictTree *anscestor, char symbol) {
+    nwords++;
     DictTree *result;
     result = malloc(sizeof(DictTree));
     result->id = get_pseudo_random();
-    result->next = new_tree();
+    result->next = new_int_tree();
+    result->anscestor = anscestor;
+    result->symbol = symbol;
     return result;
 }
 
-long int add_word_to_dict_tree(DictTree *tree, char *word) {
+//function that takes word and returns its id(if there is no word in dictionary, it adds it)
+long int add_word_or_get_id(DictTree *tree, char *word) {
     if (word[0] == 0)
         return tree->id;
-    DictTree *next = find_in_tree(tree->next, word[0]);
+    DictTree *next = find_int_tree(tree->next, word[0]);
     if (next == 0) {
-        next = new_dict_tree_node();
+        next = new_dict_tree_node(tree, word[0]);
         add_to_tree(tree->next, word[0], next);
-        return add_word_to_dict_tree(next, word + 1);
+        return add_word_or_get_id(next, word + 1);
     }
-    add_word_to_dict_tree(next, word + 1);
+    add_word_or_get_id(next, word + 1);
 }
 
 DictTree *make_dictionary(char **words) {
     long int i = 0;
-    DictTree *result = new_dict_tree_node();
+    DictTree *result = new_dict_tree_node(0, 0);
     while (words[i]) {
-        add_word_to_dict_tree(result, words[i]);
+        add_word_or_get_id(result, words[i]);
         i++;
     }
     return result;
 }
+
 
 void print_dictionary_secondary(DictTree *tree, int tdepth, char *currentword) {
     currentword[tdepth] = 0;
@@ -62,6 +71,107 @@ void print_dictionary(DictTree *tree) {
     char *currentword = malloc(sizeof(char) * 10000);
     print_dictionary_secondary(tree, 0, currentword);
     free(currentword);
+}
+
+void free_dict_tree(DictTree *tree) {
+    long int tchar = 1;
+    DictTree *next = find_next_in_tree(tree->next, &tchar);
+    while (next) {
+        free_dict_tree(next);
+        tchar++;
+        next = find_next_in_tree(tree->next, &tchar);
+    }
+    free_int_tree(tree->next);
+    free(tree);
+    nwords--;
+}
+
+typedef struct {
+    long int id;
+    DictTree *last_character;
+} Word;
+
+Word *make_word(long int id, DictTree *last_character) {
+    Word *result;
+    result = malloc(sizeof(Word));
+    result->id = id;
+    result->last_character = last_character;
+    return result;
+}
+
+void make_words_list_from_dict_tree_secondary(DictTree *tree, Word **word_list, long int *current_position) {
+    word_list[*current_position] = make_word(tree->id, tree);
+    *current_position += 1;
+    long int tchar = 0;
+    DictTree *next = find_next_in_tree(tree->next, &tchar);
+    while (next) {
+        make_words_list_from_dict_tree_secondary(next, word_list, current_position);
+        tchar++;
+        next = find_next_in_tree(tree->next, &tchar);
+    }
+}
+
+int compare(const void *a, const void *b) {
+    Word **a1 = a;
+    Word **b1 = b;
+    if ((*a1)->id < (*b1)->id)
+        return 0;
+    return 1;
+}
+
+Word **make_words_list_from_dict_tree(DictTree *tree) {
+    Word **result;
+    result = malloc(sizeof(Word *) * (nwords + 1));
+    result[nwords] = 0;
+    long int i = 0;
+    make_words_list_from_dict_tree_secondary(tree, result, &i);
+    qsort(result, nwords, sizeof(Word *), compare);
+    return result;
+}
+
+long int depth_in_dict_tree(DictTree *tree) {
+    if (tree->anscestor == 0)
+        return 0;
+    return 1 + depth_in_dict_tree(tree->anscestor);
+}
+
+void get_word_from_last_character_secondary(DictTree *tree, char *word, long int *pos) {
+    word[*pos] = tree->symbol;
+    if (tree->anscestor) {
+        *pos += 1;
+        get_word_from_last_character_secondary(tree->anscestor, word, pos);
+    }
+}
+
+char *get_word_from_last_character(DictTree *tree) {
+    char *result;
+    result = malloc(2000);
+    long int length = 0;
+    get_word_from_last_character_secondary(tree, result, &length);
+    char *cutted_result;
+    cutted_result = malloc(sizeof(char) * (length + 1));
+    int i;
+    for (i = 0; i < length; i++) {
+        cutted_result[i] = result[length - i - 1];
+        cutted_result[length] = 0;
+    }
+    free(result);
+    return cutted_result;
+}
+
+char *get_word_from_id(Word **sorted_word_list, long int id) {
+    long int min = 0, max = 0;
+    while (sorted_word_list[max])
+        max++;
+    max--;
+    while (max > min) {
+        long int mid = (min + max) / 2;
+        if (id <= sorted_word_list[mid]->id)
+            max = mid;
+        else
+            min = mid + 1;
+    }
+    return get_word_from_last_character(sorted_word_list[max]->last_character);
 }
 
 
