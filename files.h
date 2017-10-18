@@ -11,12 +11,11 @@
 #define RAVEGENERATOR_FILES_H
 #endif
 
-char *read_text_from_file(int maxsize, char *filename) {
+char *read_text_from_file(long int maxsize, char *filename) {
     FILE *f = fopen(filename, "rb");
     char c = fgetc(f);
-    long int i = 1;
+    long int i = 0;
     char *result = malloc(sizeof(char) * (maxsize + 1));
-    result[0] = 0;
     while (i < maxsize && c != (char) EOF) {
         result[i] = c;
         i++;
@@ -30,6 +29,11 @@ char *read_text_from_file(int maxsize, char *filename) {
         }
     }
     result[i] = 0;
+    char *cutted_result = malloc(sizeof(char) * (i + 1));
+    int j = 0;
+    for (j = 0; j <= i; j++)
+        cutted_result[j] = result[j];
+    free(result);
     log("file was succesfully read", "logs.txt");
-    return result;
+    return cutted_result;
 }
