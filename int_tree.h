@@ -7,7 +7,6 @@
 
 #ifndef RAVEGENERATOR_INT_TREE_H
 #define RAVEGENERATOR_INT_TREE_H
-#endif
 
 
 typedef struct {
@@ -29,9 +28,11 @@ Int_Tree *new_tree() {
     return new_node(get_rand(0, 1000000), 0);
 }
 
-void add_to_tree(Int_Tree *tree, long int number, int *pointer) {
+void add_to_tree(Int_Tree *tree, long int number, void *pointer) {
     if (tree->number == number) {
-        tree->pointer = pointer;
+        if (tree->pointer == 0)
+            tree->pointer = pointer;
+
         return;
     }
     if (number > tree->number) {
@@ -58,7 +59,7 @@ void free_tree(Int_Tree *tree) {
     free(tree);
 }
 
-void *find_in_tree(Int_Tree *tree, int number) {
+void *find_in_tree(Int_Tree *tree, long int number) {
     if (tree->number == number)
         return tree->pointer;
     void *result = 0;
@@ -78,3 +79,26 @@ void *find_in_tree(Int_Tree *tree, int number) {
 
     return result;
 }
+
+void *find_next_in_tree(Int_Tree *tree, long int *number) {
+    if (*number < tree->number) {
+        void *res = 0;
+        if (tree->left)
+            res = find_next_in_tree(tree->left, number);
+        if (!res) {
+            *number = tree->number;
+            return tree->pointer;
+        }
+        return res;
+    }
+    if (*number == tree->number) {
+        return tree->pointer;
+    }
+    if (*number > tree->number) {
+        if (tree->right)
+            return find_next_in_tree(tree->right, number);
+        return 0;
+    }
+}
+
+#endif
