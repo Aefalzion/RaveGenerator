@@ -29,12 +29,15 @@ Int_Tree *new_int_tree() {
 }
 
 void add_to_tree(Int_Tree *tree, long int number, void *pointer) {
-    if (tree->number == number) {
-        if (tree->pointer == 0)
-            tree->pointer = pointer;
+    if (tree->number == number)
+        return;
 
+    if (tree->pointer == 0 && tree->left == 0 && tree->right == 0) {
+        tree->pointer = pointer;
+        tree->number = number;
         return;
     }
+
     if (number > tree->number) {
         if (tree->right)
             add_to_tree(tree->right, number, pointer);

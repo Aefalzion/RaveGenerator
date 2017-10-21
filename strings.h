@@ -15,12 +15,16 @@ const long int MAX_WORDS = 1000000;
 void init_symbol_trees() {
     SEPARATORS = new_int_tree();
     add_to_tree(SEPARATORS, ' ', 1);
+    add_to_tree(SEPARATORS, ' ', 1);
     add_to_tree(SEPARATORS, '\n', 1);
     PUNCTUATION = new_int_tree();
     add_to_tree(PUNCTUATION, '.', 1);
+    add_to_tree(PUNCTUATION, '(', 1);
+    add_to_tree(PUNCTUATION, ')', 1);
     add_to_tree(PUNCTUATION, ',', 1);
     add_to_tree(PUNCTUATION, '!', 1);
     add_to_tree(PUNCTUATION, '?', 1);
+    add_to_tree(PUNCTUATION, ':', 1);
     add_to_tree(PUNCTUATION, '"', 1);
     add_to_tree(PUNCTUATION, ';', 1);
 

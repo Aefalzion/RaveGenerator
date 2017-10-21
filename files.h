@@ -6,7 +6,6 @@
 #include <stdio.h>
 #include "logs.h"
 
-
 #ifndef RAVEGENERATOR_FILES_H
 #define RAVEGENERATOR_FILES_H
 #endif

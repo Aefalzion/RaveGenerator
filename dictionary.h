@@ -8,17 +8,19 @@
 #include <stdio.h>
 #include "int_tree.h"
 #include "random.h"
+#include "stdlib.h"
 
 long int nwords = 0;
 
 typedef struct {
     int id;
+    int real;
     Int_Tree *next;
     void *anscestor;
     char symbol;
 } DictTree;
 
-DictTree *new_dict_tree_node(DictTree *anscestor, char symbol) {
+DictTree *new_dict_tree_node(DictTree *anscestor, char symbol, int real) {
     nwords++;
     DictTree *result;
     result = malloc(sizeof(DictTree));
@@ -26,16 +28,20 @@ DictTree *new_dict_tree_node(DictTree *anscestor, char symbol) {
     result->next = new_int_tree();
     result->anscestor = anscestor;
     result->symbol = symbol;
+    result->real = real;
     return result;
 }
 
 //function that takes word and returns its id(if there is no word in dictionary, it adds it)
 long int add_word_or_get_id(DictTree *tree, char *word) {
-    if (word[0] == 0)
+    if (word[0] == 0) {
+        tree->real = 1;
         return tree->id;
+
+    }
     DictTree *next = find_int_tree(tree->next, word[0]);
     if (next == 0) {
-        next = new_dict_tree_node(tree, word[0]);
+        next = new_dict_tree_node(tree, word[0], 0);
         add_to_tree(tree->next, word[0], next);
         return add_word_or_get_id(next, word + 1);
     }
@@ -44,7 +50,7 @@ long int add_word_or_get_id(DictTree *tree, char *word) {
 
 DictTree *make_dictionary(char **words) {
     long int i = 0;
-    DictTree *result = new_dict_tree_node(0, 0);
+    DictTree *result = new_dict_tree_node(0, 0, 0);
     while (words[i]) {
         add_word_or_get_id(result, words[i]);
         i++;
@@ -52,11 +58,15 @@ DictTree *make_dictionary(char **words) {
     return result;
 }
 
+long int pd = 0;
 
 void print_dictionary_secondary(DictTree *tree, int tdepth, char *currentword) {
     currentword[tdepth] = 0;
-    printf("%s ", currentword);
-    printf("%i\n", tree->id);
+    if (tree->real) {
+        printf("%li %s ", pd, currentword);
+        pd++;
+        printf("%i\n", tree->id);
+    }
     long int tchar = 1;
     DictTree *next = find_next_in_tree(tree->next, &tchar);
     while (next) {
@@ -68,6 +78,7 @@ void print_dictionary_secondary(DictTree *tree, int tdepth, char *currentword) {
 }
 
 void print_dictionary(DictTree *tree) {
+    pd = 0;
     char *currentword = malloc(sizeof(char) * 10000);
     print_dictionary_secondary(tree, 0, currentword);
     free(currentword);
@@ -100,8 +111,10 @@ Word *make_word(long int id, DictTree *last_character) {
 }
 
 void make_words_list_from_dict_tree_secondary(DictTree *tree, Word **word_list, long int *current_position) {
-    word_list[*current_position] = make_word(tree->id, tree);
-    *current_position += 1;
+    if (tree->real) {
+        word_list[*current_position] = make_word(tree->id, tree);
+        *current_position += 1;
+    }
     long int tchar = 0;
     DictTree *next = find_next_in_tree(tree->next, &tchar);
     while (next) {
@@ -111,21 +124,25 @@ void make_words_list_from_dict_tree_secondary(DictTree *tree, Word **word_list, 
     }
 }
 
-int compare(const void *a, const void *b) {
-    Word **a1 = a;
-    Word **b1 = b;
-    if ((*a1)->id < (*b1)->id)
-        return 0;
-    return 1;
+int compare(const Word **a1, const Word **b1) {
+    return (*a1)->id - (*b1)->id;
+
 }
 
 Word **make_words_list_from_dict_tree(DictTree *tree) {
     Word **result;
-    result = malloc(sizeof(Word *) * (nwords + 1));
-    result[nwords] = 0;
+    result = malloc(sizeof(Word *) * (1000000));
     long int i = 0;
     make_words_list_from_dict_tree_secondary(tree, result, &i);
-    qsort(result, nwords, sizeof(Word *), compare);
+    qsort(result, (size_t) i, sizeof(Word *), (int (*)(const void *, const void *)) compare);
+    result[i] = 0;
+    printf("%li\n", i);
+    /* printf("%i\n", compare(result, result + 1));
+     printf("%i\n", compare(result + 1, result + 2));
+     printf("%i\n", compare(result + 2, result + 3));
+     printf("%i\n", compare(result + 3, result + 4));
+     printf("%i\n", compare(result + 4, result + 5));
+ */
     return result;
 }
 

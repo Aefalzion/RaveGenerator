@@ -1,0 +1,8 @@
+//
+// Created by vasya on 18.10.2017.
+//
+
+#ifndef RAVEGENERATOR_OPERATIONS_H
+#define RAVEGENERATOR_OPERATIONS_H
+
+#endif //RAVEGENERATOR_OPERATIONS_H
