@@ -50,13 +50,13 @@ void add_word_sequence_to_markov_tree(MarkovNode *tree, long int *first, long in
     }
 }
 
-long int procent_of_randomness = 0;
+long int procent_of_randomness = 0, depth_of_accuracy = 0;
 
-long int get_random_word(MarkovNode *tree, long int *first, long int *last) {
-    if ((last >= first) && (get_rand(0, 100) >= procent_of_randomness)) {
+long int get_random_word(MarkovNode *tree, long int *first, long int *last, long int depth) {
+    if ((last >= first) && (get_rand(0, 100) >= procent_of_randomness || (depth <= depth_of_accuracy))) {
         MarkovNode *next_node = find_int_tree(tree->next_nodes, *last);
         if (next_node) {
-            return get_random_word(next_node, first, last - 1);
+            return get_random_word(next_node, first, last - 1, depth + 1);
         }
 
 
@@ -99,7 +99,7 @@ char *make_sequence(DictTree *dict_tree, MarkovNode *markov_tree, Word **sorted_
     sequence[0] = add_word_or_get_id(dict_tree, dot);
     long int cur_pos_in_sequence = 1;
     while (cur_pos_in_result < length) {
-        sequence[cur_pos_in_sequence] = get_random_word(markov_tree, sequence, sequence + cur_pos_in_sequence - 1);
+        sequence[cur_pos_in_sequence] = get_random_word(markov_tree, sequence, sequence + cur_pos_in_sequence - 1, 0);
         current_word = get_word_from_id(sorted_word_list, sequence[cur_pos_in_sequence]);
         //    printf("%s\n", current_word);
         long int current_pos_in_word = 0;

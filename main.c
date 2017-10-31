@@ -14,7 +14,7 @@ long int ch_length = 10;
 
 void input_file(char *filename) {
     char *text = read_text_from_file(100000, filename);
-    printf("%s", text);
+    // printf("%s", text);
     char **words = split_string_into_words(text);
     free(text);
     long int *sequence;
@@ -42,7 +42,7 @@ int main() {
     log("program started", "logs.txt");
     printf("Hello! This is the Rave Generator. You can use following commands:\n"
                    "i <filename> <chains' length>  to import file with text\n"
-                   "g <number> <procent_of_randomness>    to generate a text of <number> length\n"
+                   "g <number> <procent_of_randomness> <depth_of_accuracy>   to generate a text of <number> length\n"
                    "e              to close program\n");
 
     char command[100];
@@ -61,12 +61,12 @@ int main() {
                 scanf("%s", filename);
                 scanf("%li", &ch_length);
                 input_file(filename);
-                print_dictionary(dictionary);
+                //print_dictionary(dictionary);
                 break;
             case 'g':
                 scanf("%li", &length);
                 scanf("%li", &procent_of_randomness);
-
+                scanf("%li", &depth_of_accuracy);
                 res = make_sequence(dictionary, markov_tree, dictionary_list, length);
                 printf("%s", res);
                 break;
@@ -78,6 +78,9 @@ int main() {
                 for (i = 0; dictionary_list[i]; i++)
                     printf("%i %s %li\n", i, get_word_from_last_character(dictionary_list[i]->last_character),
                            dictionary_list[i]->id);
+                break;
+            case 'd':
+                print_dictionary(dictionary);
                 break;
             default:
                 printf("Sorry, but there is no '%s' command!\n", command);
