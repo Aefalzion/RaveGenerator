@@ -9,6 +9,7 @@
 
 Int_Tree *SEPARATORS;
 Int_Tree *PUNCTUATION;
+Int_Tree *LETTERS;
 
 const long int MAX_WORDS = 1000000;
 
@@ -17,6 +18,7 @@ void init_symbol_trees() {
     add_to_tree(SEPARATORS, ' ', 1);
     add_to_tree(SEPARATORS, ' ', 1);
     add_to_tree(SEPARATORS, '\n', 1);
+    add_to_tree(SEPARATORS, '\t', 1);
     PUNCTUATION = new_int_tree();
     add_to_tree(PUNCTUATION, '.', 1);
     add_to_tree(PUNCTUATION, '(', 1);
@@ -27,6 +29,13 @@ void init_symbol_trees() {
     add_to_tree(PUNCTUATION, ':', 1);
     add_to_tree(PUNCTUATION, '"', 1);
     add_to_tree(PUNCTUATION, ';', 1);
+    LETTERS = new_int_tree();
+    long int i;
+    for (i = 0; i <= 'z' - 'a'; i++) {
+        add_to_tree(LETTERS, 'a' + (17 * i) % ('z' - 'a'), 1);
+        add_to_tree(LETTERS, 'A' + (17 * i) % ('z' - 'a'), 1);
+    }
+    add_to_tree(LETTERS, '\'', 1);
 
 }
 
@@ -69,7 +78,7 @@ char **split_string_into_words(char *string) {
             result[current_n] = copy_string(current_word);
             current_word_position = 0;
             current_n++;
-        } else {
+        } else if (find_int_tree(LETTERS, string[current_symbol])) {
             current_word[current_word_position] = string[current_symbol];
             current_word_position++;
         }

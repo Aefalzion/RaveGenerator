@@ -28,8 +28,7 @@ long int get_rand(long int from, long int to) {
 
 long int get_pseudo_random() {
     CUR_RND++;
-    return get_rand(0, 100000) * 10000 + CUR_RND;
-    CUR_RND++;
+    return get_rand(0, 10000) * 100000 + CUR_RND;
 };
 
 

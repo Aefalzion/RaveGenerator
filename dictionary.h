@@ -137,12 +137,6 @@ Word **make_words_list_from_dict_tree(DictTree *tree) {
     qsort(result, (size_t) i, sizeof(Word *), (int (*)(const void *, const void *)) compare);
     result[i] = 0;
     printf("%li\n", i);
-    /* printf("%i\n", compare(result, result + 1));
-     printf("%i\n", compare(result + 1, result + 2));
-     printf("%i\n", compare(result + 2, result + 3));
-     printf("%i\n", compare(result + 3, result + 4));
-     printf("%i\n", compare(result + 4, result + 5));
- */
     return result;
 }
 
