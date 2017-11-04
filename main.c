@@ -10,7 +10,7 @@
 DictTree *dictionary;
 Word **dictionary_list;
 MarkovNode *markov_tree;
-long int ch_length = 10;
+long int ch_length = 5;
 
 void input_file(char *filename) {
     char *text = read_text_from_file(10000000, filename);
@@ -95,6 +95,18 @@ void print_variants(long int n) {
     free(ar);
 }
 
+void import_list(char *filename) {
+    FILE *fp = fopen(filename, "r");
+    char filename1[1000];
+
+    while (fgetc(fp) != EOF) {
+        fscanf(fp, "%s", filename1);
+        input_file(filename1);
+        printf("%s\n", filename1);
+    }
+    fclose(fp);
+}
+
 int main() {
     setlocale(LC_ALL, "Rus");
     markov_tree = make_new_markov_node(0);
@@ -103,17 +115,21 @@ int main() {
     log("program started", "logs.txt");
     printf("Hello! This is the Rave Generator. You can use following commands:\n"
                    "i <filename> <chains' length>  to import file with text\n"
-                   "g <number> <procent_of_randomness> <depth_of_accuracy>   to generate a text of <number> length\n"
-                   "e              to close program\n");
+                   "g <length of a text> <procent_of_randomness> <depth_of_accuracy>   to generate a text\n"
+                   "e to close program\n"
+                   "d to print the dictionary\n"
+                   "p <filename> to save the last generated text to a file\n"
+                   "s <number of words> <words> to search for an sequence of words\n"
+                   "l <name of file with list of files> to import files from a list\n");
 
     char command[100];
+    char filename[1000];
+    char *res = 0;
+    long int length, i, n;
     while (command[0] != 'e') {
         printf(">");
 
         scanf("%s", command);
-        char filename[1000];
-        char *res;
-        long int length, i, n;
         switch (command[0]) {
             case 'e':
                 break;
@@ -124,7 +140,15 @@ int main() {
                 input_file(filename);
                 //print_dictionary(dictionary);
                 break;
+            case 'l':
+                //  printf("Please, enter name of the file with text:\n");
+                scanf("%s", filename);
+                import_list(filename);
+                //print_dictionary(dictionary);
+                break;
             case 'g':
+                if (res)
+                    free(res);
                 scanf("%li", &length);
                 scanf("%li", &procent_of_randomness);
                 scanf("%li", &depth_of_accuracy);
@@ -135,17 +159,22 @@ int main() {
                 scanf("%li", &i);
                 printf("%s", get_word_from_id(dictionary_list, i));
                 break;
-            case 'l':
-                for (i = 0; dictionary_list[i]; i++)
-                    printf("%i %s %li\n", i, get_word_from_last_character(dictionary_list[i]->last_character),
-                           dictionary_list[i]->id);
-                break;
             case 'd':
                 print_dictionary(dictionary);
                 break;
             case 's':
                 scanf("%li", &n);
                 print_variants(n);
+                break;
+            case 'p':
+                scanf("%s", filename);
+                if (res == 0) {
+                    printf("Generate something first!\n");
+                    break;
+                }
+                FILE *fp = fopen(filename, "w");
+                fprintf(fp, res);
+                fclose(fp);
                 break;
             default:
                 printf("Sorry, but there is no '%s' command!\n", command);
