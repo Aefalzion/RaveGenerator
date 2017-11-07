@@ -17,25 +17,25 @@ void init_symbol_trees() {
     SEPARATORS = new_int_tree();
     PUNCTUATION = new_int_tree();
     LETTERS = new_int_tree();
-    add_to_tree(SEPARATORS, ' ', 1);
-    add_to_tree(SEPARATORS, ' ', 1);
-    add_to_tree(SEPARATORS, '\n', 1);
-    add_to_tree(SEPARATORS, '\t', 1);
-    add_to_tree(PUNCTUATION, '.', 1);
-    add_to_tree(PUNCTUATION, '(', 1);
-    add_to_tree(PUNCTUATION, ')', 1);
-    add_to_tree(PUNCTUATION, ',', 1);
-    add_to_tree(PUNCTUATION, '!', 1);
-    add_to_tree(PUNCTUATION, '?', 1);
-    add_to_tree(PUNCTUATION, ':', 1);
-    add_to_tree(PUNCTUATION, '"', 1);
-    add_to_tree(PUNCTUATION, ';', 1);
+    add_to_tree(SEPARATORS, ' ', (void *) 1);
+    add_to_tree(SEPARATORS, ' ', (void *) 1);
+    add_to_tree(SEPARATORS, '\n', (void *) 1);
+    add_to_tree(SEPARATORS, '\t', (void *) 1);
+    add_to_tree(PUNCTUATION, '.', (void *) 1);
+    add_to_tree(PUNCTUATION, '(', (void *) 1);
+    add_to_tree(PUNCTUATION, ')', (void *) 1);
+    add_to_tree(PUNCTUATION, ',', (void *) 1);
+    add_to_tree(PUNCTUATION, '!', (void *) 1);
+    add_to_tree(PUNCTUATION, '?', (void *) 1);
+    add_to_tree(PUNCTUATION, ':', (void *) 1);
+    add_to_tree(PUNCTUATION, '"', (void *) 1);
+    add_to_tree(PUNCTUATION, ';', (void *) 1);
     long int i;
     for (i = 0; i <= 'z' - 'a'; i++) {
-        add_to_tree(LETTERS, 'a' + (17 * i) % ('z' - 'a'), 1);
-        add_to_tree(LETTERS, 'A' + (17 * i) % ('z' - 'a'), 1);
+        add_to_tree(LETTERS, 'a' + (17 * i) % ('z' - 'a'), (void *) 1);
+        add_to_tree(LETTERS, 'A' + (17 * i) % ('z' - 'a'), (void *) 1);
     }
-    add_to_tree(LETTERS, '\'', 1);
+    add_to_tree(LETTERS, '\'', (void *) 1);
 
 }
 

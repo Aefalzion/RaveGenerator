@@ -12,19 +12,19 @@
 
 char *read_text_from_file(long int maxsize, char *filename) {
     FILE *f = fopen(filename, "rb");
-    char c = fgetc(f);
+    char c = (char) fgetc(f);
     long int i = 0;
     char *result = malloc(sizeof(char) * (maxsize + 1));
     while (i < maxsize && c != (char) EOF) {
         result[i] = c;
         i++;
         //  printf("%i ", i);
-        c = fgetc(f);
+        c = (char) fgetc(f);
         if (c == ' ' || c == '\r' || c == '\n') {
             result[i] = ' ';
             i++;
             while (c == ' ' || c == '\r' || c == '\n')
-                c = fgetc(f);
+                c = (char) fgetc(f);
         }
     }
     result[i] = 0;
@@ -33,6 +33,6 @@ char *read_text_from_file(long int maxsize, char *filename) {
     for (j = 0; j <= i; j++)
         cutted_result[j] = result[j];
     free(result);
-    log("file was succesfully read", "logs.txt");
+    mylog("file was succesfully read", "logs.txt");
     return cutted_result;
 }

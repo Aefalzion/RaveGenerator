@@ -15,7 +15,7 @@ long int CUR_RND = 0;
 
 void randomize() {
     RANDOMIZED = 1;
-    srand(clock());
+    srand((unsigned int) clock());
 }
 
 long int get_rand(long int from, long int to) {
@@ -23,7 +23,7 @@ long int get_rand(long int from, long int to) {
         randomize();
     if (to >= from)
         return from + rand() % (to - from + 1);
-    log("!!! from < to !!!", "logs.txt");
+    mylog("!!! from < to !!!", "logs.txt");
 }
 
 long int get_pseudo_random() {

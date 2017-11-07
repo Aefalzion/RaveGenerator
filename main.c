@@ -2,7 +2,6 @@
 #include <locale.h>
 #include "int_tree.h"
 #include "dictionary.h"
-#include "logs.h"
 #include "files.h"
 #include "strings.h"
 #include "generator.h"
@@ -88,7 +87,7 @@ void print_variants(long int n) {
     free(dictionary_list);
     dictionary_list = make_words_list_from_dict_tree((dictionary));
     print_variants_secondary(markov_tree, ar + n - 1, n);
-    qsort(variants, nvariants, sizeof(WordProb), compvariants);
+    qsort(variants, (size_t) nvariants, sizeof(WordProb), (void *) compvariants);
     for (i = 0; i < nvariants; i++)
         printf("%s %li\n", get_word_from_id(dictionary_list, variants[i].id), variants[i].prob);
     free(variants);
@@ -107,27 +106,33 @@ void import_list(char *filename) {
     fclose(fp);
 }
 
-int main() {
-    setlocale(LC_ALL, "Rus");
-    markov_tree = make_new_markov_node(0);
-    init_symbol_trees();
-    dictionary = new_dict_tree_node(0, 0, 0);
-    log("program started", "logs.txt");
+void display_help() {
     printf("Hello! This is the Rave Generator. You can use following commands:\n"
-                   "i <filename> <chains' length>  to import file with text\n"
+                   "i <filename> <chains' length>  to import file with sample text\n"
                    "g <length of a text> <procent_of_randomness> <depth_of_accuracy>   to generate a text\n"
                    "e to close program\n"
                    "d to print the dictionary\n"
                    "p <filename> to save the last generated text to a file\n"
                    "s <number of words> <words> to search for an sequence of words\n"
-                   "l <name of file with list of files> to import files from a list\n");
+                   "l <name of file with list of files> to import files with sample texts from a list\n"
+                   "w <id> to search a word from its id\n"
+                   "h to display help\n");
+}
+
+int main() {
+    setlocale(LC_ALL, "Rus");
+    markov_tree = make_new_markov_node(0);
+    init_symbol_trees();
+    dictionary = new_dict_tree_node(0, 0, 0);
+    mylog("program started", "logs.txt");
+    display_help();
 
     char command[100];
     char filename[1000];
     char *res = 0;
     long int length, i, n;
     while (command[0] != 'e') {
-        printf(">");
+        printf("\n>");
 
         scanf("%s", command);
         switch (command[0]) {
@@ -176,40 +181,23 @@ int main() {
                 fprintf(fp, res);
                 fclose(fp);
                 break;
+            case 'h':
+                display_help();
+                break;
             default:
                 printf("Sorry, but there is no '%s' command!\n", command);
-                log("user is dumb", "logs.txt");
+                mylog("user is dumb", "logs.txt");
                 break;
         }
     }
-    log("program succesfully closed", "logs.txt");
+    free_dict_tree(dictionary);
+    long int j = 0;
+    while (dictionary_list[j]) {
+        free(dictionary_list[j]);
+        j++;
+    }
+    free(dictionary_list);
+
+    mylog("program succesfully closed", "logs.txt");
     return 0;
-
-    /*
-    DictTree *tree = new_dict_tree_node(0, 0);
-    char s[1000];
-    scanf("%s", s);
-    while (s[0] != '.') {
-        printf("%li\n", add_word_or_get_id(tree, s));
-        scanf("%s", s);
-    }
-    print_dictionary(tree);
-    Word **array = make_words_list_from_dict_tree(tree);
-    int t = 0;
-    while (array[t]) {
-        printf("%li %i\n", array[t]->id, (int) array[t]->last_character);
-        t++;
-    }
-
-    printf("%li\n", nwords);
-    Word **word_list = make_words_list_from_dict_tree(tree);
-    long int request;
-
-    scanf("%li", &request);
-    while (request) {
-
-        printf("%s", get_word_from_id(word_list, request));
-        scanf("%li", &request);
-    }
-     */
 }

@@ -7,6 +7,7 @@ CMakeFiles/RaveGenerator.dir/main.c.obj: ../generator.h
 CMakeFiles/RaveGenerator.dir/main.c.obj: ../int_tree.h
 CMakeFiles/RaveGenerator.dir/main.c.obj: ../logs.h
 CMakeFiles/RaveGenerator.dir/main.c.obj: ../main.c
+CMakeFiles/RaveGenerator.dir/main.c.obj: ../markov_tree.h
 CMakeFiles/RaveGenerator.dir/main.c.obj: ../random.h
 CMakeFiles/RaveGenerator.dir/main.c.obj: ../strings.h
 

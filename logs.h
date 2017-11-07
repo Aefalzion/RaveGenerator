@@ -12,7 +12,7 @@
 #define RAVEGENERATOR_LOGS_H
 #endif //RAVEGENERATOR_LOGS_H
 
-void log(char *log, char *filename) {
+void mylog(char *log, char *filename) {
     time_t rawtime;
     struct tm *timeinfo;
     time(&rawtime);
