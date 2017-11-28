@@ -100,4 +100,8 @@ char **split_string_into_words(char *string) {
     return cutted_result;
 }
 
+void space_clean(char * string, size_t size){
+    
+}
+
 #endif //RAVEGENERATOR_STRINGS_H
