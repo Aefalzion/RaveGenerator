@@ -14,12 +14,12 @@
 
 void mylog(char *log, char *filename) {
     time_t rawtime;
-    struct tm *timeinfo;
+    struct tm timeinfo;
     time(&rawtime);
-    timeinfo = localtime(&rawtime);
+    timeinfo = *localtime(&rawtime);
 
     FILE *f = fopen(filename, "a");
-    fputs(asctime(timeinfo), f);
+    fputs(asctime(&timeinfo), f);
     fputs(log, f);
     fputs("\n", f);
     fclose(f);

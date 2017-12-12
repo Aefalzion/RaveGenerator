@@ -18,7 +18,6 @@ char *read_text_from_file(long int maxsize, char *filename) {
     while (i < maxsize && c != (char) EOF) {
         result[i] = c;
         i++;
-        //  printf("%i ", i);
         c = (char) fgetc(f);
         if (c == ' ' || c == '\r' || c == '\n') {
             result[i] = ' ';
@@ -34,5 +33,6 @@ char *read_text_from_file(long int maxsize, char *filename) {
         cutted_result[j] = result[j];
     free(result);
     mylog("file was succesfully read", "logs.txt");
+    fclose(f);
     return cutted_result;
 }

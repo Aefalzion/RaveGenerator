@@ -126,7 +126,6 @@ void make_words_list_from_dict_tree_secondary(DictTree *tree, Word **word_list, 
 
 int compare(const Word **a1, const Word **b1) {
     return (*a1)->id - (*b1)->id;
-
 }
 
 Word **make_words_list_from_dict_tree(DictTree *tree) {

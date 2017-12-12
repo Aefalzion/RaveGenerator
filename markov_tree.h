@@ -47,6 +47,30 @@ void add_word_sequence_to_markov_tree(MarkovNode *tree, long int *first, long in
     }
 }
 
+void free_markov_tree(MarkovNode *tree) {
+    MarkovNode *next = 0;
+    long int curint = 0;
+    next = find_next_in_tree(tree->next_nodes, &curint);
+    while (next) {
+        curint++;
+        free_markov_tree(next);
+        next = find_next_in_tree(tree->next_nodes, &curint);
+    }
+    free_int_tree(tree->next_nodes);
+
+    long int *next1;
+    next1 = 0;
+    curint = 0;
+    next1 = find_next_in_tree(tree->word_probabilities, &curint);
+    while (next1) {
+        curint++;
+        free(next1);
+        next1 = find_next_in_tree(tree->word_probabilities, &curint);
+    }
+
+    free_int_tree(tree->word_probabilities);
+    free(tree);
+}
 
 #include "int_tree.h"
 

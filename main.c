@@ -13,7 +13,6 @@ long int ch_length = 5;
 
 void input_file(char *filename) {
     char *text = read_text_from_file(10000000, filename);
-    // printf("%s", text);
     char **words = split_string_into_words(text);
     free(text);
     long int *sequence;
@@ -131,7 +130,7 @@ int main() {
     char filename[1000];
     char *res = 0;
     long int length, i, n;
-    while (command[0] != 'e') {
+    do {
         printf("\n>");
 
         scanf("%s", command);
@@ -189,15 +188,17 @@ int main() {
                 mylog("user is dumb", "logs.txt");
                 break;
         }
-    }
+    } while (command[0] != 'e');
     free_dict_tree(dictionary);
     long int j = 0;
-    while (dictionary_list[j]) {
-        free(dictionary_list[j]);
-        j++;
+    if (dictionary_list) {
+        while (dictionary_list[j]) {
+            free(dictionary_list[j]);
+            j++;
+        }
+        free(dictionary_list);
     }
-    free(dictionary_list);
-
+    free_markov_tree(markov_tree);
     mylog("program succesfully closed", "logs.txt");
-    return 0;
-}
+    return 0
+};
