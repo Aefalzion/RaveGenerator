@@ -23,10 +23,19 @@ void input_file(char *filename) {
         i++;
     }
     process_sequence(markov_tree, sequence, sequence + i - 1, ch_length);
+
     for (i = 0; words[i]; i++)
         free(words[i]);
     free(words);
-    free(dictionary_list);
+    if (dictionary_list) {
+        i = 0;
+        while (dictionary_list[i]) {
+            free(dictionary_list[i]);
+            i++;
+        }
+        free(dictionary_list);
+        dictionary_list = 0;
+    }
     free(sequence);
     dictionary_list = make_words_list_from_dict_tree((dictionary));
 }
@@ -197,8 +206,12 @@ int main() {
             j++;
         }
         free(dictionary_list);
+        dictionary_list = 0;
     }
     free_markov_tree(markov_tree);
+    if (res)
+        free(res);
     mylog("program succesfully closed", "logs.txt");
-    return 0
-};
+    free_trees();
+    return 0;
+}
