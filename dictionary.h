@@ -67,10 +67,10 @@ void print_dictionary_secondary(DictTree *tree, int tdepth, char *currentword) {
         pd++;
         printf("%i\n", tree->id);
     }
-    char tchar = 1;
-    DictTree *next = find_next_in_tree(tree->next, (long int *) &tchar);
+    long int tchar = 1;
+    DictTree *next = find_next_in_tree(tree->next, &tchar);
     while (next) {
-        currentword[tdepth] = tchar;
+        currentword[tdepth] = (char) tchar;
         print_dictionary_secondary(next, tdepth + 1, currentword);
         tchar++;
         next = find_next_in_tree(tree->next, (long int *) &tchar);

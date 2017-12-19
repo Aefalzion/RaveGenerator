@@ -104,7 +104,6 @@ void free_trees() {
     free_int_tree(SEPARATORS);
     free_int_tree(LETTERS);
     free_int_tree(PUNCTUATION);
-
 }
 
 void space_clean(char * string, size_t size){

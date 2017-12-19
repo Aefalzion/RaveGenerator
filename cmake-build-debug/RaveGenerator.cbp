@@ -104,6 +104,9 @@
 		<Unit filename="C:/Users/vasya/Work/RaveProject/random.h">
 			<Option target="RaveGenerator"/>
 		</Unit>
+		<Unit filename="C:/Users/vasya/Work/RaveProject/settings.h">
+			<Option target="RaveGenerator"/>
+		</Unit>
 		<Unit filename="C:/Users/vasya/Work/RaveProject/strings.h">
 			<Option target="RaveGenerator"/>
 		</Unit>

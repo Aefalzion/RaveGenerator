@@ -6,17 +6,19 @@
 #include "strings.h"
 #include "generator.h"
 
+#define MAXSIZE 10000000
+
 DictTree *dictionary;
-Word **dictionary_list;
+Word **dictionary_list = 0;
 MarkovNode *markov_tree;
 long int ch_length = 5;
 
 void input_file(char *filename) {
-    char *text = read_text_from_file(10000000, filename);
+    char *text = read_text_from_file(MAXSIZE, filename);
     char **words = split_string_into_words(text);
     free(text);
     long int *sequence;
-    sequence = malloc(sizeof(long int) * 1000000);
+    sequence = malloc(sizeof(long int) * MAXSIZE);
     int i = 0;
     while (words[i]) {
         sequence[i] = add_word_or_get_id(dictionary, words[i]);
@@ -82,7 +84,7 @@ void print_variants_secondary(MarkovNode *tree, long int *words, long int n) {
 }
 
 void print_variants(long int n) {
-    variants = malloc(sizeof(WordProb) * 100000);
+    variants = malloc(sizeof(WordProb) * MAXSIZE);
     nvariants = 0;
     long int *ar;
     ar = malloc(sizeof(long int) * n);

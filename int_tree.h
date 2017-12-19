@@ -8,6 +8,7 @@
 #ifndef RAVEGENERATOR_INT_TREE_H
 #define RAVEGENERATOR_INT_TREE_H
 
+#define MAXRAND 1000000
 
 typedef struct {
     long int number;
@@ -25,7 +26,7 @@ Int_Tree *new_node(long int number, void *pointer) {
 }
 
 Int_Tree *new_int_tree() {
-    return new_node(get_rand(0, 1000000), 0);
+    return new_node(get_rand(0, MAXRAND), 0);
 }
 
 void add_to_tree(Int_Tree *tree, long int number, void *pointer) {
